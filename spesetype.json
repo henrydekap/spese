@@ -1,0 +1,106 @@
+[
+  {
+    "code": "acqua",
+    "name": "Acqua"
+  },
+  {
+    "code": "adsl",
+    "name": "ADSL"
+  },
+  {
+    "code": "avvocato",
+    "name": "Avvocato"
+  },
+  {
+    "code": "benzina",
+    "name": "Benzina e GPL"
+  },
+  {
+    "code": "cane",
+    "name": "Cane"
+  },
+  {
+    "code": "capelli",
+    "name": "Capelli"
+  },
+  {
+    "code": "cazzate",
+    "name": "Cazzate"
+  },
+  {
+    "code": "cene",
+    "name": "Cene fuori"
+  },
+  {
+    "code": "cinema",
+    "name": "Cinema"
+  },
+  {
+    "code": "ferie",
+    "name": "Ferie"
+  },
+  {
+    "code": "lavatrici",
+    "name": "Lavatrici"
+  },
+  {
+    "code": "luce",
+    "name": "Luce"
+  },
+  {
+    "code": "macchina",
+    "name": "Macchina"
+  },
+  {
+    "code": "medicine",
+    "name": "Medicine"
+  },
+  {
+    "code": "mobili",
+    "name": "Mobili/roba casa"
+  },
+  {
+    "code": "multe",
+    "name": "Multe"
+  },
+  {
+    "code": "palestra",
+    "name": "Palestra"
+  },
+  {
+    "code": "regali",
+    "name": "Regali"
+  },
+  {
+    "code": "riscaldamento",
+    "name": "Riscaldamento"
+  },
+  {
+    "code": "spesa",
+    "name": "Spesa"
+  },
+  {
+    "code": "sport",
+    "name": "Sport"
+  },
+  {
+    "code": "spurgo",
+    "name": "Spurgo"
+  },
+  {
+    "code": "tasse",
+    "name": "Tasse"
+  },
+  {
+    "code": "telefono",
+    "name": "Telefono"
+  },
+  {
+    "code": "treno",
+    "name": "Treno"
+  },
+  {
+    "code": "vestiti",
+    "name": "Vestiti"
+  }
+]

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<header class="text-center">
+    <h1>Spese Casa</h1>
+</header>
+<section id="addspesa">
+    <h2 class="text-center">Spesa aggiunta correttamente!</h1>
+    <div class="text-center">
+        <h3>{{ spesetype }}, {{ cost }} €</h3>
+
+        <a class="btn btn-primary" href="{{ path('main') }}">Aggiungi un'altra spesa</a>
+    </div>
+    
+</section>
+{% endblock %}
