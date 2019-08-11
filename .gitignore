@@ -19,3 +19,4 @@
 ###< symfony/web-server-bundle ###
 
 /api-google-sheet-secret.json
+/.php-version
