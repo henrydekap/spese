@@ -23,11 +23,11 @@
             <div class="col-md-12 btn-group-justified btn-group-toggle" data-toggle="buttons">
                 {% for st in spesetypes %}
                     <label class="btn btn-primary m-2">
-                        <input type="radio" required name="spesetype" value="{{ st.name }}" autocomplete="off">{{ st.name }}
+                        <input class="spesetype" type="radio" required name="spesetype" value="{{ st.name }}" autocomplete="off">{{ st.name }}
                     </label>
                 {% endfor %}
             </div>
-            <div class="col-md-12 text-center">
+            <div class="col-md-12 text-center" id="add-container">
                 <fieldset class="mt-2">
                     <label for="cost">Costo</label>
                     <input type="number" required min="0" name="cost">
@@ -44,3 +44,12 @@
     </form>
 </section>
 {% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    $(".spesetype").click(function() {
+        $("#add-container").removeClass("invisible");
+    });
+</script>
+{% endblock %}
+

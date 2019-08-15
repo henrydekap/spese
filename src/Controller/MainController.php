@@ -74,7 +74,7 @@ class MainController extends AbstractController
 
         $conf = ["valueInputOption" => "USER_ENTERED"];
 
-        //$service->spreadsheets_values->append($spreadsheetId, $range, $valueRange, $conf);
+        $service->spreadsheets_values->append($spreadsheetId, $range, $valueRange, $conf);
 
         return $this->render('main/addspesa.html.twig', [
             'spesetype' => $spesetype,
