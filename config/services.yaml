@@ -6,8 +6,9 @@
 parameters:
     auth_config:  '%kernel.project_dir%/%env(GOOGLE_APPLICATION_CREDENTIALS)%'
     spesetype_file:  '%kernel.project_dir%/spesetype.json'
-    spreadsheet_id:  '168RrRJ4wsdyg0X00AMWel2AQUApJs0YEyzzC_ILLDO4'
-    spreadsheet_range:  'Risposte del modulo 1!A1:G'
+    spreadsheet_id:  '%env(SPREADSHEET_ID)%'
+    spreadsheet_range:  '%env(SPREADSHEET_RANGE)%'
+    spreadsheet_tipispese_range:  '%env(SPREADSHEET_TIPISPESE_RANGE)%'
 
 services:
     # default configuration for services in *this* file

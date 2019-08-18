@@ -26,8 +26,17 @@
                         <input class="spesetype" type="radio" required name="spesetype" value="{{ st.name }}" autocomplete="off">{{ st.name }}
                     </label>
                 {% endfor %}
+
+                <!-- Altro -->
+                <label class="btn btn-primary m-2 new-spese-type">
+                    <input class="spesetype" type="radio" required name="spesetype" value="altro" autocomplete="off">Altro
+                </label>
             </div>
-            <div class="col-md-12 text-center" id="add-container">
+            <div class="col-md-12 text-center m-t-2" id="add-container">
+                <fieldset class="mt-2 new-spese-type-field invisible">
+                    <label for="newspesetype">Tipo di Spesa</label>
+                    <input type="text" name="newspesetype">
+                </fieldset>
                 <fieldset class="mt-2">
                     <label for="cost">Costo</label>
                     <input type="number" required min="0" name="cost">
@@ -47,8 +56,19 @@
 
 {% block javascripts %}
 <script type="text/javascript">
-    $(".spesetype").click(function() {
-        $("#add-container").removeClass("invisible");
+    $( document ).ready(function() {
+        
+        $(".spesetype").change(function(){ 
+            if( $(this).is(":checked") ){ 
+                var val = $(this).val(); 
+                if (val == "altro") {
+                    $(".new-spese-type-field").removeClass("invisible");
+                } else {
+                    $(".new-spese-type-field").addClass("invisible");
+                }
+            }
+        });
+
     });
 </script>
 {% endblock %}
