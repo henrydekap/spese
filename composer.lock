@@ -4234,16 +4234,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.10.0",
+            "version": "v1.18.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "e38520236bdc911c2f219634b485bc328746e980"
+                "reference": "130851b90c1ea615ac5be6fce827971f4f55afbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/e38520236bdc911c2f219634b485bc328746e980",
-                "reference": "e38520236bdc911c2f219634b485bc328746e980",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/130851b90c1ea615ac5be6fce827971f4f55afbf",
+                "reference": "130851b90c1ea615ac5be6fce827971f4f55afbf",
                 "shasum": ""
             },
             "require": {
@@ -4252,15 +4252,13 @@
             },
             "require-dev": {
                 "composer/composer": "^1.0.2|^2.0",
-                "symfony/dotenv": "^4.4|^5.0",
-                "symfony/phpunit-bridge": "^4.4|^5.0",
-                "symfony/process": "^3.4|^4.4|^5.0"
+                "symfony/dotenv": "^4.4|^5.0|^6.0",
+                "symfony/filesystem": "^4.4|^5.0|^6.0",
+                "symfony/phpunit-bridge": "^4.4.12|^5.0|^6.0",
+                "symfony/process": "^4.4|^5.0|^6.0"
             },
             "type": "composer-plugin",
             "extra": {
-                "branch-alias": {
-                    "dev-main": "1.9-dev"
-                },
                 "class": "Symfony\\Flex\\Flex"
             },
             "autoload": {
@@ -4281,7 +4279,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v1.10.0"
+                "source": "https://github.com/symfony/flex/tree/v1.18.6"
             },
             "funding": [
                 {
@@ -4297,7 +4295,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-05T10:56:45+00:00"
+            "time": "2022-04-15T08:20:34+00:00"
         },
         {
             "name": "symfony/form",
@@ -8799,5 +8797,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }
