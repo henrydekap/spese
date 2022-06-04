@@ -21,3 +21,7 @@
 
 /api-google-sheet-secret.json
 /.php-version
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
