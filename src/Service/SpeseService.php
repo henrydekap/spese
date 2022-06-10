@@ -52,13 +52,38 @@ class SpeseService {
         $spreadsheetId = $this->params->get('spreadsheet_id');
         $spesetype_range = $this->sheet->spreadsheets_values->get($spreadsheetId, $this->params->get('spreadsheet_tipispese_range'))->getValues();
         
+        $today = Carbon::now();
+        $reference_year = $today->year - 1;
+
+        $spese_range = $this->params->get('spreadsheet_range');
+        $spese_values = $this->sheet->spreadsheets_values->get($spreadsheetId, $spese_range)->getValues();
+            
+        $entries = array();
+        // calculate the most used in last 2 years
+        foreach ($spese_values as $spese_value)
+        {
+            if ($spese_value[6] >= $reference_year ) {
+                if (!isset($entries[$spese_value[2]])) {
+                    $entries[$spese_value[2]] = 1;
+                } else {
+                    $entries[$spese_value[2]]++;
+                }
+            }
+        }
+
         $spesetypes = [];
         foreach ($spesetype_range as $spesetype) {
             $spesetypes[] = array(
                 'code' => $spesetype[0],
                 'name' => $spesetype[1],
+                'entries' => isset( $entries[$spesetype[1]]) ? $entries[$spesetype[1]] : 0,
             );
         }
+
+        // sort by entries
+        usort($spesetypes, function($a, $b) {
+            return $b['entries'] <=> $a['entries'];
+        });
 
         return $spesetypes;
     }
