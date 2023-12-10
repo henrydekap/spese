@@ -23,7 +23,10 @@
             <div class="col-md-12 btn-group-justified btn-group-toggle" data-toggle="buttons">
                 {% for st in spesetypes %}
                     <label class="btn btn-primary m-2">
-                        <input class="spesetype" type="radio" required name="spesetype" value="{{ st.name }}" autocomplete="off">{{ st.name }}
+                        <input class="spesetype" type="radio" required name="spesetype" value="{{ st.name }}" autocomplete="off">
+                        {{ st.name }}
+                        <br/>
+                        mese: {{ st.getMonthToDate }} €
                     </label>
                 {% endfor %}
 

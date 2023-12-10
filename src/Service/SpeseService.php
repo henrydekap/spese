@@ -5,6 +5,7 @@ namespace App\Service;
 use \Google_Client;
 use Carbon\Carbon;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use App\Entity\SpeseType;
 
 class SpeseService {
 
@@ -47,6 +48,9 @@ class SpeseService {
         return $last_spese;
     }
 
+    /** 
+     * @return SpeseType[]
+     */
     public function getTipiSpeseOrderedByMostUsed():array
     {
         $spreadsheetId = $this->params->get('spreadsheet_id');
@@ -58,10 +62,20 @@ class SpeseService {
         $spese_range = $this->params->get('spreadsheet_range');
         $spese_values = $this->sheet->spreadsheets_values->get($spreadsheetId, $spese_range)->getValues();
             
-        $entries = array();
+        $entries = [];
+        $ytd = [];
+        $curr_month = [];
         // calculate the most used in last 2 years
         foreach ($spese_values as $spese_value)
         {
+            // column order:
+            // 0 - timestamp
+            // 1 - person (not used)
+            // 2 - spesetype name
+            // 3 - amount
+            // 4 - notes
+            // 5 - month
+            // 6 - year 
             if ($spese_value[6] >= $reference_year ) {
                 if (!isset($entries[$spese_value[2]])) {
                     $entries[$spese_value[2]] = 1;
@@ -69,20 +83,40 @@ class SpeseService {
                     $entries[$spese_value[2]]++;
                 }
             }
+
+            // current month spent
+            if ($spese_value[6] == $today->year && $spese_value[5] == $today->month) {
+                if (!isset($curr_month[$spese_value[2]])) {
+                    $curr_month[$spese_value[2]] = $spese_value[3];
+                } else {
+                    $curr_month[$spese_value[2]] += $spese_value[3];
+                }
+            }
+
+            // YTD spent
+            if ($spese_value[6] == $today->year) {
+                if (!isset($ytd[$spese_value[2]])) {
+                    $ytd[$spese_value[2]] = $spese_value[3];
+                } else {
+                    $ytd[$spese_value[2]] += $spese_value[3];
+                }
+            }
         }
 
         $spesetypes = [];
         foreach ($spesetype_range as $spesetype) {
-            $spesetypes[] = array(
-                'code' => $spesetype[0],
-                'name' => $spesetype[1],
-                'entries' => isset( $entries[$spesetype[1]]) ? $entries[$spesetype[1]] : 0,
+            $spesetypes[] = new SpeseType(
+                $spesetype[0], 
+                $spesetype[1], 
+                isset( $curr_month[$spesetype[1]]) ? $curr_month[$spesetype[1]] : 0,
+                isset( $ytd[$spesetype[1]]) ? $ytd[$spesetype[1]] : 0,
+                isset( $entries[$spesetype[1]]) ? $entries[$spesetype[1]] : 0
             );
         }
 
-        // sort by entries
-        usort($spesetypes, function($a, $b) {
-            return $b['entries'] <=> $a['entries'];
+        // sort by most used
+        usort($spesetypes, function(SpeseType $a, SpeseType $b) {
+            return $b->getEntries() <=> $a->getEntries();
         });
 
         return $spesetypes;
@@ -123,4 +157,6 @@ class SpeseService {
 
         $this->sheet->spreadsheets_values->append($spreadsheetId, $range, $valueRange, $conf);    
     }
+
+
 }
