@@ -51,5 +51,32 @@ class MainController extends AbstractController
             'notes' => $notes,
         ]);
     }
+
+    /**
+     * @Route("/api/spese", name="api_spese", methods={"GET"})
+     */
+    public function getSpese(Request $request, SpeseService $spese)
+    {
+        $offset = $request->query->getInt('offset', 0);
+        $limit = $request->query->getInt('limit', 10);
+
+        $data = $spese->getSpesePaginated($offset, $limit);
+
+        return $this->json($data);
+    }
+
+    /**
+     * @Route("/history", name="history_spese", methods={"GET"})
+     */
+    public function history(Request $request, SpeseService $spese)
+    {
+        // Load initial batch (e.g., 20)
+        $last_spese = $spese->getLastAddedSpese(20);
+        
+        return $this->render('main/history.html.twig', [
+            'last_spese' => $last_spese,
+        ]);
+    }
+
     
 }
