@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<header class="text-center">
+    <h1>Storico Spese</h1>
+</header>
+<section id="history_spese">
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="text-center" id="spese-list">
+            {% for ls in last_spese %}
+                <li>{{ ls }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="text-center mt-3">
+        <a href="{{ path('main') }}" class="btn btn-secondary">Torna alla Home</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var offset = 20; // Initial offset (since we show 20 initially)
+        var limit = 10;
+        var loading = false;
+        var allLoaded = false;
+
+        $(window).scroll(function() {
+            if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+                if(!loading && !allLoaded) {
+                    loadMoreSpese();
+                }
+            }
+        });
+
+        // Check if page is short and load more immediately if needed
+        checkAndLoadMore();
+
+        function checkAndLoadMore() {
+            if($(document).height() <= $(window).height() + 50 && !allLoaded && !loading) {
+                loadMoreSpese();
+            }
+        }
+
+        function loadMoreSpese() {
+            loading = true;
+            $.ajax({
+                url: '/api/spese',
+                data: {
+                    offset: offset,
+                    limit: limit
+                },
+                success: function(data) {
+                    if(data.length > 0) {
+                        $.each(data, function(index, spesa) {
+                            $('#spese-list').append('<li>' + spesa.full_text + '</li>');
+                        });
+                        offset += limit;
+                        
+                        // Check again if we need to fill the screen
+                        setTimeout(checkAndLoadMore, 100);
+                    } else {
+                        allLoaded = true;
+                    }
+                    loading = false;
+                },
+                error: function() {
+                    loading = false;
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

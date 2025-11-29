@@ -48,6 +48,54 @@ class SpeseService {
         return $last_spese;
     }
 
+    public function getSpesePaginated(int $offset, int $limit): array
+    {
+        $spreadsheetId = $this->params->get('spreadsheet_id');
+        $range = $this->params->get('spreadsheet_range');
+        $response = $this->sheet->spreadsheets_values->get($spreadsheetId, $range);
+        $values = $response->getValues();
+        
+        if (empty($values)) {
+            return [];
+        }
+
+        // Assume first row is header if it exists, but based on getLastAddedSpese logic, 
+        // it seems we just want to reverse the array.
+        // Let's play it safe and just reverse everything, then slice.
+        // If the first row is a header, it will be at the end after reverse.
+        // We can filter it out if needed, but for now let's just return data.
+        
+        $values = array_reverse($values);
+        $slice = array_slice($values, $offset, $limit);
+        
+        $spese_list = [];
+        foreach ($slice as $row) {
+            // Check if row has enough columns and looks like a valid entry
+            if (count($row) < 4) continue;
+
+            try {
+                // Try to parse date to ensure it's a valid expense row
+                $spesa_data = Carbon::createFromFormat('d/m/Y H.i.s', $row[0]);
+                $spesa_tipo = $row[2];
+                $spesa_note = ((isset($row[4]) && strlen($row[4]) != 0) ? ' (' . $row[4] . ")" : '');
+                $spesa_costo = $row[3];
+                
+                $spese_list[] = [
+                    'date' => $spesa_data->format('d/m/Y'),
+                    'type' => $spesa_tipo,
+                    'note' => $spesa_note,
+                    'cost' => $spesa_costo,
+                    'full_text' => $spesa_data->format('d/m/Y') . ', ' . $spesa_tipo . $spesa_note . ', ' . $spesa_costo . " €"
+                ];
+            } catch (\Exception $e) {
+                // Skip malformed rows (e.g. header)
+                continue;
+            }
+        }
+
+        return $spese_list;
+    }
+
     /** 
      * @return SpeseType[]
      */
