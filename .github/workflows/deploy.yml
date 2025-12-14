@@ -1,0 +1,31 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout del codice
+      uses: actions/checkout@v4
+
+    - name: Copia e aggiorna il codice
+      run: |
+        rsync -avz --delete \
+            --exclude '.env' \
+            --exclude 'api-google-sheet-secret.json' \
+            --exclude 'spesetype.json' \
+            ${{ github.workspace }}/ /var/www/spese/
+        
+    - name: install dependencies
+      run: |
+        cd /var/www/spese/
+        composer install --no-dev --optimize-autoloader
+
+    - name: fine deploy
+      if: always()
+      run: |
+        echo "Deploy completato con successo!"
