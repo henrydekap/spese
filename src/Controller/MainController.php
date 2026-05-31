@@ -15,13 +15,20 @@ class MainController extends AbstractController
      */
     public function index(Request $request, SpeseService $spese)
     {
-        $last_spese = $spese->getLastAddedSpese();
-        
-        $spesetypes = $spese->getTipiSpeseOrderedByMostUsed();
+        try {
+            $last_spese = $spese->getLastAddedSpese();
+            $spesetypes = $spese->getTipiSpeseOrderedByMostUsed();
+            $error = null;
+        } catch (\Exception $e) {
+            $last_spese = [];
+            $spesetypes = [];
+            $error = "Impossibile recuperare i dati da Google Sheets (" . $e->getMessage() . "). Riprova più tardi.";
+        }
 
         return $this->render('main/index.html.twig', [
             'spesetypes' => $spesetypes,
             'last_spese' => $last_spese,
+            'error' => $error,
         ]);
     }
 
@@ -60,7 +67,11 @@ class MainController extends AbstractController
         $offset = $request->query->getInt('offset', 0);
         $limit = $request->query->getInt('limit', 10);
 
-        $data = $spese->getSpesePaginated($offset, $limit);
+        try {
+            $data = $spese->getSpesePaginated($offset, $limit);
+        } catch (\Exception $e) {
+            return $this->json(['error' => $e->getMessage()], 500);
+        }
 
         return $this->json($data);
     }
@@ -70,13 +81,20 @@ class MainController extends AbstractController
      */
     public function history(Request $request, SpeseService $spese)
     {
-        // Load initial batch (e.g., 20)
-        $last_spese = $spese->getLastAddedSpese(20);
+        try {
+            $last_spese = $spese->getLastAddedSpese(20);
+            $error = null;
+        } catch (\Exception $e) {
+            $last_spese = [];
+            $error = "Impossibile recuperare lo storico da Google Sheets (" . $e->getMessage() . "). Riprova più tardi.";
+        }
         
         return $this->render('main/history.html.twig', [
             'last_spese' => $last_spese,
+            'error' => $error,
         ]);
     }
+
 
     
 }

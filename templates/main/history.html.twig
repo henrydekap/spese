@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+{% if error %}
+    <div class="alert alert-danger text-center">{{ error }}</div>
+{% endif %}
 <header class="text-center">
     <h1>Storico Spese</h1>
 </header>
