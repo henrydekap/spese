@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.4-apache
 
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -55,7 +55,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 COPY . .
 
 # Run post-install scripts (cache:clear, assets:install)
-RUN composer run-script post-install-cmd --no-interaction || true
+RUN APP_ENV=prod composer run-script post-install-cmd --no-interaction || true
 
 # Set permissions for Symfony's var/ directory
 RUN mkdir -p var/cache var/log \
