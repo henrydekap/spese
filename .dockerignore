@@ -1,0 +1,35 @@
+# Dependencies (rebuilt in container)
+vendor/
+
+# Cache and logs
+var/
+
+# Git
+.git/
+.github/
+
+# Local environment overrides
+.env.local
+.env.*.local
+
+# Secrets (mounted as volume)
+api-google-sheet-secret.json
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+.DS_Store
+
+# Tests
+tests/
+phpunit.xml
+phpunit.xml.dist
+.phpunit.result.cache
