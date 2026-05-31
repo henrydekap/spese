@@ -1,4 +1,4 @@
-FROM php:7.3-apache
+FROM php:7.4-apache
 
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
