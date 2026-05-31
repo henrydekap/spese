@@ -1,13 +1,7 @@
 FROM php:7.4-apache
 
 # Install system dependencies and PHP extensions
-# Note: Check-Date=false needed because Docker BuildKit clock may be wrong on Raspberry Pi
-RUN apt-get \
-    -o Acquire::Check-Valid-Until=false \
-    -o Acquire::Check-Date=false \
-    -o Acquire::AllowInsecureRepositories=true \
-    update \
-    && apt-get install -y --allow-unauthenticated \
+RUN apt-get update && apt-get install -y \
     libicu-dev \
     libzip-dev \
     unzip \
