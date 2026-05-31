@@ -1,7 +1,9 @@
 FROM php:7.4-apache
 
 # Install system dependencies and PHP extensions
-RUN apt-get update && apt-get install -y \
+RUN rm -rf /var/lib/apt/lists/* \
+    && apt-get -o Acquire::AllowInsecureRepositories=true update \
+    && apt-get -o Acquire::AllowInsecureRepositories=true install -y --allow-unauthenticated \
     libicu-dev \
     libzip-dev \
     unzip \
